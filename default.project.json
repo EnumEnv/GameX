@@ -1,10 +1,10 @@
 {
-    "name": "GameX",
-    "tree": {
-        "$className": "Folder",
+  "name": "GameX",
+  "tree": {
+    "$className": "Folder",
 
-        "Core": {
-            "$path": "src/Core"
-        }
+    "Core": {
+      "$path": "src/Core"
     }
+  }
 }
