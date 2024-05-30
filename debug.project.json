@@ -22,8 +22,8 @@
         "$path": "debug/Services"
       },
 
-      "BackendService": {
-        "$path": "debug/BackendService"
+      "BackendServices": {
+        "$path": "debug/BackendServices"
       }
     }
   }
