@@ -37,9 +37,17 @@ function ServiceManager.Register(self: SelfType)
 	RegisteredServices[self._name] = require(self._module)
 end
 
-function ServiceManager.Start(self: SelfType) end
+function ServiceManager.Start(self: SelfType)
+	assert(RegisteredServices[self._name], "Service of name", self._name, "isn't registered. Can't be started.")
 
-function ServiceManager.GetService(self: SelfType, name: string): XService | nil
+	TaskThreadManager.CreateTask(self._name)
+	TaskThreadManager.BindFunctionToTask(self._name, function()
+		RegisteredServices[self._name]:Begin()
+	end)
+	TaskThreadManager.StartTask(self._name)
+end
+
+function ServiceManager.GetService(name: string): XService | nil
 	if not RegisteredServices[name] then
 		warn("Service of name:", name, "doesn't exist.")
 		return
