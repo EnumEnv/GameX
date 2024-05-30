@@ -9,6 +9,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CoreX = {}
 
 -- Variables --
+local Signal = require(script.Signal)
+
+-- Types --
+export type SignalType = typeof(Signal)
 
 -- Local Functions --
 --[=[
@@ -80,6 +84,14 @@ function CoreX.Start()
 	else
 		RunServer()
 	end
+end
+
+--[=[
+    Creates a new signal.
+    @return Signal
+--]=]
+function CoreX.CreateSignal()
+	return Signal.new()
 end
 
 -- End --
