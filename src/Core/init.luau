@@ -9,10 +9,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CoreX = {}
 
 -- Variables --
+local Managers = script.Managers
+
 local Signal = require(script.Signal)
+local ServiceManager = require(Managers.ServiceManager)
 
 -- Types --
 export type SignalType = typeof(Signal)
+export type XService = ServiceManager.XService
 
 -- Local Functions --
 --[=[
@@ -92,6 +96,16 @@ end
 --]=]
 function CoreX.CreateSignal()
 	return Signal.new()
+end
+
+function CoreX.NewService(name: string, moduleScript: ModuleScript): XService
+	local newService = ServiceManager.new(name, moduleScript)
+	newService:Register()
+	newService:Start()
+end
+
+function CoreX.GetService(name: string): XService | nil
+	return ServiceManager.GetService(name)
 end
 
 -- End --
