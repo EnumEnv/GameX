@@ -8,6 +8,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 --]=]
 local CoreX = {}
 
+-- Variables --
+
 -- Local Functions --
 --[=[
     Gets the run context of the current environment.
@@ -22,10 +24,10 @@ end
 --]=]
 local function InitModulesInDirectory(directory: Folder)
 	for _, module in directory:GetChildren() do
-        if module:IsA("Folder") then
-            InitModulesInDirectory(directory)
-            continue
-        end
+		if module:IsA("Folder") then
+			InitModulesInDirectory(directory)
+			continue
+		end
 
 		xpcall(function()
 			require(module)
@@ -40,11 +42,15 @@ end
     @return void
 --]=]
 local function RunClient()
+	assert(not (script:GetAttribute("ClientStarted") == true), "<GAMEX>CORE> Client already started.")
+
 	local Controllers = ReplicatedStorage.Controllers
 	local ClientComponents = ReplicatedStorage.Components.Client
 
-    InitModulesInDirectory(Controllers)
-    InitModulesInDirectory(ClientComponents)
+	script:SetAttribute("ClientStarted", true)
+
+	InitModulesInDirectory(Controllers)
+	InitModulesInDirectory(ClientComponents)
 end
 
 --[=[
@@ -52,17 +58,28 @@ end
     @return void
 --]=]
 local function RunServer()
-    local Services = ReplicatedStorage.Services
-    local BackendServices = ReplicatedStorage.BackendServices
+	assert(not (script:GetAttribute("ServerStarted") == true), "<GAMEX>CORE> Server already started.")
+
+	local Services = ReplicatedStorage.Services
+	local BackendServices = ReplicatedStorage.BackendServices
+
+	script:SetAttribute("ServerStarted", true)
+
+	InitModulesInDirectory(Services)
+	InitModulesInDirectory(BackendServices)
 end
 
 -- Module Functions --
-function CoreX.Start() 
-    if GetRunContext() == 'client' then
-        RunClient()
-    else
-        RunServer()
-    end
+--[=[
+    Starts the GameX framework on the current environment and run context.
+    @return void
+--]=]
+function CoreX.Start()
+	if GetRunContext() == "client" then
+		RunClient()
+	else
+		RunServer()
+	end
 end
 
 -- End --
