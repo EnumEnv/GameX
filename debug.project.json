@@ -1,0 +1,30 @@
+{
+  "name": "GameXDebug",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "GameX": {
+        "$path": "default.project.json"
+      },
+
+      "Components": {
+        "$path": "debug/Components"
+      },
+
+      "Controllers": {
+        "$path": "debug/Controllers"
+      }
+    },
+
+    "ServerScriptService": {
+      "Services": {
+        "$path": "debug/Services"
+      },
+
+      "BackendService": {
+        "$path": "debug/BackendService"
+      }
+    }
+  }
+}
