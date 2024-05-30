@@ -22,6 +22,7 @@
 -- Services --
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerScriptService = game:GetService("ServerScriptService")
 
 --[=[
     The main class for the Core of GameX.
@@ -89,8 +90,8 @@ end
 local function RunServer()
     assert(not (script:GetAttribute("ServerStarted") == true), "<GAMEX>CORE> Server already started.")
 
-    local Services = ReplicatedStorage.Services
-    local BackendServices = ReplicatedStorage.BackendServices
+    local Services = ServerScriptService.Services
+    local BackendServices = ServerScriptService.BackendServices
 
     script:SetAttribute("ServerStarted", true)
 
