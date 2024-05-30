@@ -42,10 +42,28 @@ end
 local function RunClient()
 	local Controllers = ReplicatedStorage.Controllers
 	local ClientComponents = ReplicatedStorage.Components.Client
+
+    InitModulesInDirectory(Controllers)
+    InitModulesInDirectory(ClientComponents)
+end
+
+--[=[
+    Runs the server side of the GameX framework.
+    @return void
+--]=]
+local function RunServer()
+    local Services = ReplicatedStorage.Services
+    local BackendServices = ReplicatedStorage.BackendServices
 end
 
 -- Module Functions --
-function CoreX.Start() end
+function CoreX.Start() 
+    if GetRunContext() == 'client' then
+        RunClient()
+    else
+        RunServer()
+    end
+end
 
 -- End --
 return CoreX
