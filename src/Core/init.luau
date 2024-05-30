@@ -13,8 +13,26 @@ local CoreX = {}
     Gets the run context of the current environment.
     @return "client" | "server" --> string
 --]=]
-local function GetRunContext()
-    return if RunService:IsClient() then 'client' else 'server'
+local function GetRunContext(): "client" | "server"
+	return if RunService:IsClient() then "client" else "server"
+end
+
+--[=[
+    Initiates modules in a directory.
+--]=]
+local function InitModulesInDirectory(directory: Folder)
+	for _, module in directory:GetChildren() do
+        if module:IsA("Folder") then
+            InitModulesInDirectory(directory)
+            continue
+        end
+
+		xpcall(function()
+			require(module)
+		end, function(err)
+			warn("<GAMEX>CORE> Failed to initiate module", tostring(module), "for", err)
+		end)
+	end
 end
 
 --[=[
@@ -22,14 +40,12 @@ end
     @return void
 --]=]
 local function RunClient()
-    local Controllers = ReplicatedStorage.Controllers
-    local ClientComponents = ReplicatedStorage.Components.Client
+	local Controllers = ReplicatedStorage.Controllers
+	local ClientComponents = ReplicatedStorage.Components.Client
 end
 
 -- Module Functions --
-function CoreX.Start()
-    
-end
+function CoreX.Start() end
 
 -- End --
 return CoreX
