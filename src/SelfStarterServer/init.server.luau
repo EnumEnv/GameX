@@ -1,9 +1,9 @@
 -- GameX --
-local CoreInstance = script.Parent.Core
+local GameX = script.Parent
 local Core = require(script.Parent.Core)
 
 -- Option Attributes --
-local DebugModules = CoreInstance:GetAttribute("DebugModules")
+local DebugModules = GameX:GetAttribute("DebugModules")
 
 -- Parse and Start --
 Core.Start({ DebugModules = DebugModules })
