@@ -45,7 +45,7 @@ export type XService = {
     @param module ModuleScript: The module script associated with the service.
     @return SelfType: A new instance of ServiceManager.
 ]=]
-function ServiceManager.new(name: string, module: ModuleScript): SelfType
+function ServiceManager.new(name: string, module: { [any]: any }): SelfType
 	local self = {
 		_name = name,
 		_module = module,
@@ -63,7 +63,7 @@ function ServiceManager.Register(self: SelfType)
 	assert(self["_name"], "Couldn't find self._name.")
 	assert(self["_module"], "Couldn't find self._module.")
 
-	RegisteredServices[self._name] = require(self._module)
+	RegisteredServices[self._name] = self._module
 end
 
 --[=[
@@ -79,6 +79,10 @@ function ServiceManager.Start(self: SelfType)
 		RegisteredServices[self._name]:Begin()
 	end)
 	TaskThreadManager.StartTask(self._name)
+end
+
+function ServiceManager.GetUseableService(self: SelfType): XService
+	return RegisteredServices[self._name]
 end
 
 --[=[

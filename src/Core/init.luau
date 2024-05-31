@@ -123,13 +123,15 @@ end
 --[=[
     Creates and starts a new service.
     @param name string: The name of the service.
-    @param moduleScript ModuleScript: The module script of the service.
+    @param module { [any]: any }: The module table of the service.
 ]=]
-function CoreX.NewService(name: string, moduleScript: ModuleScript): XService
-    local newService = ServiceManager.new(name, moduleScript)
+function CoreX.NewService(name: string, module): XService
+    local newService = ServiceManager.new(name, module)
 
     newService:Register()
     newService:Start()
+
+    return newService:GetUseableService()
 end
 
 --[=[
