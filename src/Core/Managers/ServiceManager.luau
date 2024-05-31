@@ -27,7 +27,6 @@ local RegisteredServices = {}
 -- Types --
 export type SelfType = typeof(ServiceManager) & {
 	_name: string,
-	_module: ModuleScript,
 }
 
 export type XService = {
@@ -45,10 +44,9 @@ export type XService = {
     @param module ModuleScript: The module script associated with the service.
     @return SelfType: A new instance of ServiceManager.
 ]=]
-function ServiceManager.new(name: string, module: { [any]: any }): SelfType
+function ServiceManager.new(name: string): SelfType
 	local self = {
 		_name = name,
-		_module = module,
 	}
 
 	return setmetatable(self, ServiceManager) :: any
@@ -61,9 +59,8 @@ end
 ]=]
 function ServiceManager.Register(self: SelfType)
 	assert(self["_name"], "Couldn't find self._name.")
-	assert(self["_module"], "Couldn't find self._module.")
 
-	RegisteredServices[self._name] = self._module
+	RegisteredServices[self._name] = {}
 end
 
 --[=[

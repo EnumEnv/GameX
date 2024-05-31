@@ -39,6 +39,7 @@ local ServiceManager = require(Managers.ServiceManager)
 -- Types --
 export type SignalType = typeof(Signal)
 export type XService = ServiceManager.XService
+export type XServiceManager = typeof(ServiceManager)
 
 -- Local Functions --
 
@@ -123,16 +124,17 @@ end
 --[=[
     Creates and starts a new service.
     @param name string: The name of the service.
-    @param module { [any]: any }: The module table of the service.
     @return XService
 ]=]
-function CoreX.NewService(name: string, module): XService
-	local newService = ServiceManager.new(name, module)
+function CoreX.NewService(name: string): { ServiceController: XServiceManager, Service: XService }
+	local newService = ServiceManager.new(name)
 
-	newService:Register()
-	newService:Start()
+    newService:Register()
 
-	return newService:GetUseableService()
+	return {
+        ServiceController = newService,
+        Service = newService:GetUseableService(),
+    }
 end
 
 --[=[
