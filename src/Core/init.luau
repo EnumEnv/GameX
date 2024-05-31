@@ -40,6 +40,9 @@ local ServiceManager = require(Managers.ServiceManager)
 export type SignalType = typeof(Signal)
 export type XService = ServiceManager.XService
 export type XServiceManager = typeof(ServiceManager)
+export type GameXOptions = {
+    DebugModules: boolean?
+}
 
 -- Local Functions --
 
@@ -55,15 +58,29 @@ end
     Initiates modules in a directory.
     @param directory Folder: The folder containing modules to initialize.
 ]=]
-local function InitModulesInDirectory(directory: Folder)
+local function InitModulesInDirectory(directory: Folder, debugModules: boolean?)
 	for _, module in directory:GetChildren() do
 		if module:IsA("Folder") then
-			InitModulesInDirectory(directory)
+            
+            if debugModules then
+                print("<GAMEX>CORE>DEBUG> Looping through directory",tostring(module))
+            end
+
+			InitModulesInDirectory(directory, debugModules)
 			continue
 		end
 
+        if debugModules then
+            print("<GAMEX>CORE>DEBUG> Requiring module",tostring(module))
+        end
+
 		xpcall(function()
 			require(module)
+            
+            if debugModules then
+                print("<GAMEX>CORE>DEBUG> Module",tostring(module),"required.")
+            end
+
 		end, function(err)
 			warn("<GAMEX>CORE> Failed to initiate module", tostring(module), "for", err)
 		end)
@@ -73,7 +90,7 @@ end
 --[=[
     Runs the client side of the GameX framework.
 ]=]
-local function RunClient()
+local function RunClient(gamexOptions: GameXOptions)
 	assert(not (script:GetAttribute("ClientStarted") == true), "<GAMEX>CORE> Client already started.")
 
 	local Controllers = ReplicatedStorage.Controllers
@@ -81,14 +98,14 @@ local function RunClient()
 
 	script:SetAttribute("ClientStarted", true)
 
-	InitModulesInDirectory(Controllers)
-	InitModulesInDirectory(ClientComponents)
+	InitModulesInDirectory(Controllers, gamexOptions.DebugModules)
+	InitModulesInDirectory(ClientComponents, gamexOptions.DebugModules)
 end
 
 --[=[
     Runs the server side of the GameX framework.
 ]=]
-local function RunServer()
+local function RunServer(gamexOptions: GameXOptions)
 	assert(not (script:GetAttribute("ServerStarted") == true), "<GAMEX>CORE> Server already started.")
 
 	local Services = ServerScriptService.Services
@@ -96,8 +113,8 @@ local function RunServer()
 
 	script:SetAttribute("ServerStarted", true)
 
-	InitModulesInDirectory(Services)
-	InitModulesInDirectory(BackendServices)
+	InitModulesInDirectory(Services, gamexOptions.DebugModules)
+	InitModulesInDirectory(BackendServices, gamexOptions.DebugModules)
 end
 
 -- Module Functions --
@@ -105,11 +122,11 @@ end
 --[=[
     Starts the GameX framework on the current environment and run context.
 ]=]
-function CoreX.Start()
+function CoreX.Start(gamexOptions: GameXOptions)
 	if GetRunContext() == "client" then
-		RunClient()
+		RunClient(gamexOptions)
 	else
-		RunServer()
+		RunServer(gamexOptions)
 	end
 end
 
