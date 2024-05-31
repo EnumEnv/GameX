@@ -3,6 +3,11 @@
   "emitLegacyScripts": false,
   "tree": {
     "$className": "Folder",
+    "$properties": {
+      "Attributes": {
+        "DebugModules": {"Bool": true}
+      }
+    },
 
     "Core": {
       "$path": "src/Core"
