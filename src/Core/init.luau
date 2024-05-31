@@ -47,7 +47,7 @@ export type XService = ServiceManager.XService
     @return "client" | "server" --> string
 ]=]
 local function GetRunContext(): "client" | "server"
-    return if RunService:IsClient() then "client" else "server"
+	return if RunService:IsClient() then "client" else "server"
 end
 
 --[=[
@@ -55,48 +55,48 @@ end
     @param directory Folder: The folder containing modules to initialize.
 ]=]
 local function InitModulesInDirectory(directory: Folder)
-    for _, module in directory:GetChildren() do
-        if module:IsA("Folder") then
-            InitModulesInDirectory(directory)
-            continue
-        end
+	for _, module in directory:GetChildren() do
+		if module:IsA("Folder") then
+			InitModulesInDirectory(directory)
+			continue
+		end
 
-        xpcall(function()
-            require(module)
-        end, function(err)
-            warn("<GAMEX>CORE> Failed to initiate module", tostring(module), "for", err)
-        end)
-    end
+		xpcall(function()
+			require(module)
+		end, function(err)
+			warn("<GAMEX>CORE> Failed to initiate module", tostring(module), "for", err)
+		end)
+	end
 end
 
 --[=[
     Runs the client side of the GameX framework.
 ]=]
 local function RunClient()
-    assert(not (script:GetAttribute("ClientStarted") == true), "<GAMEX>CORE> Client already started.")
+	assert(not (script:GetAttribute("ClientStarted") == true), "<GAMEX>CORE> Client already started.")
 
-    local Controllers = ReplicatedStorage.Controllers
-    local ClientComponents = ReplicatedStorage.Components.Client
+	local Controllers = ReplicatedStorage.Controllers
+	local ClientComponents = ReplicatedStorage.Components.Client
 
-    script:SetAttribute("ClientStarted", true)
+	script:SetAttribute("ClientStarted", true)
 
-    InitModulesInDirectory(Controllers)
-    InitModulesInDirectory(ClientComponents)
+	InitModulesInDirectory(Controllers)
+	InitModulesInDirectory(ClientComponents)
 end
 
 --[=[
     Runs the server side of the GameX framework.
 ]=]
 local function RunServer()
-    assert(not (script:GetAttribute("ServerStarted") == true), "<GAMEX>CORE> Server already started.")
+	assert(not (script:GetAttribute("ServerStarted") == true), "<GAMEX>CORE> Server already started.")
 
-    local Services = ServerScriptService.Services
-    local BackendServices = ServerScriptService.BackendServices
+	local Services = ServerScriptService.Services
+	local BackendServices = ServerScriptService.BackendServices
 
-    script:SetAttribute("ServerStarted", true)
+	script:SetAttribute("ServerStarted", true)
 
-    InitModulesInDirectory(Services)
-    InitModulesInDirectory(BackendServices)
+	InitModulesInDirectory(Services)
+	InitModulesInDirectory(BackendServices)
 end
 
 -- Module Functions --
@@ -105,11 +105,11 @@ end
     Starts the GameX framework on the current environment and run context.
 ]=]
 function CoreX.Start()
-    if GetRunContext() == "client" then
-        RunClient()
-    else
-        RunServer()
-    end
+	if GetRunContext() == "client" then
+		RunClient()
+	else
+		RunServer()
+	end
 end
 
 --[=[
@@ -117,7 +117,7 @@ end
     @return Signal: A new signal instance.
 ]=]
 function CoreX.CreateSignal()
-    return Signal.new()
+	return Signal.new()
 end
 
 --[=[
@@ -127,12 +127,12 @@ end
     @return XService
 ]=]
 function CoreX.NewService(name: string, module): XService
-    local newService = ServiceManager.new(name, module)
+	local newService = ServiceManager.new(name, module)
 
-    newService:Register()
-    newService:Start()
+	newService:Register()
+	newService:Start()
 
-    return newService:GetUseableService()
+	return newService:GetUseableService()
 end
 
 --[=[
@@ -141,7 +141,7 @@ end
     @return XService | nil: The registered service if found, otherwise nil.
 ]=]
 function CoreX.GetService(name: string): XService | nil
-    return ServiceManager.GetService(name)
+	return ServiceManager.GetService(name)
 end
 
 -- End --
