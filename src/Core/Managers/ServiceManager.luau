@@ -81,6 +81,10 @@ function ServiceManager.Start(self: SelfType)
 	TaskThreadManager.StartTask(self._name)
 end
 
+--[=[
+	Returns a service that can be edited and used.
+	@return XService
+--]=]
 function ServiceManager.GetUseableService(self: SelfType): XService
 	return RegisteredServices[self._name]
 end

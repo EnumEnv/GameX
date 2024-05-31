@@ -124,6 +124,7 @@ end
     Creates and starts a new service.
     @param name string: The name of the service.
     @param module { [any]: any }: The module table of the service.
+    @return XService
 ]=]
 function CoreX.NewService(name: string, module): XService
     local newService = ServiceManager.new(name, module)
