@@ -1,4 +1,6 @@
 --[=[
+	-- OUTDATED DOCUMENTATION --
+
     The `ServiceManager` module is responsible for managing and orchestrating services within an application.
     It allows for the registration, starting, and retrieval of services. Services are tied to tasks managed
     by the `TaskThreadManager` module.

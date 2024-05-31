@@ -1,4 +1,6 @@
 --[=[
+    -- OUTDATED DOCUMENTATION --
+
     The `CoreX` module serves as the main class for the GameX framework, managing the initialization and 
     execution of services and components for both client and server environments.
 
