@@ -15,6 +15,10 @@
 
     "SelfStarterServer": {
       "$path": "src/SelfStarterServer"
+    },
+
+    "SelfStarterClient": {
+      "$path": "src/SelfStarterClient"
     }
   }
 }
