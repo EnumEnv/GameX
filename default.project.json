@@ -5,6 +5,10 @@
 
     "Core": {
       "$path": "src/Core"
+    },
+
+    "SelfStarterServer": {
+      "$path": "src/SelfStarterServer"
     }
   }
 }
