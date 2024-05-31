@@ -1,5 +1,6 @@
 {
   "name": "GameX",
+  "emitLegacyScripts": false,
   "tree": {
     "$className": "Folder",
 
