@@ -116,11 +116,13 @@ local function RunServer(gamexOptions: GameXOptions)
 
 	local Services = ServerScriptService.Services
 	local BackendServices = ServerScriptService.BackendServices
+	local ServerComponents = ReplicatedStorage.Components.Server
 
 	script:SetAttribute("ServerStarted", true)
 
 	InitModulesInDirectory(Services, gamexOptions.DebugModules)
 	InitModulesInDirectory(BackendServices, gamexOptions.DebugModules)
+	InitModulesInDirectory(ServerComponents, gamexOptions.DebugModules)
 end
 
 -- Module Functions --
