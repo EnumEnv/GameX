@@ -37,13 +37,16 @@ local Managers = script.Managers
 
 local Signal = require(script.Signal)
 local ServiceManager = require(Managers.ServiceManager)
+local ControllerManager = require(Managers.ControllerManager)
 
 -- Types --
 export type SignalType = typeof(Signal)
 export type XService = ServiceManager.XService
 export type XServiceManager = typeof(ServiceManager)
+export type XController = ControllerManager.XController
+export type XControllerManager = typeof(ControllerManager)
 export type GameXOptions = {
-    DebugModules: boolean?
+	DebugModules: boolean?,
 }
 
 -- Local Functions --
@@ -63,26 +66,24 @@ end
 local function InitModulesInDirectory(directory: Folder, debugModules: boolean?)
 	for _, module in directory:GetChildren() do
 		if module:IsA("Folder") then
-            
-            if debugModules then
-                print("<GAMEX>CORE>DEBUG> Looping through directory",tostring(module))
-            end
+			if debugModules then
+				print("<GAMEX>CORE>DEBUG> Looping through directory", tostring(module))
+			end
 
 			InitModulesInDirectory(directory, debugModules)
 			continue
 		end
 
-        if debugModules then
-            print("<GAMEX>CORE>DEBUG> Requiring module",tostring(module))
-        end
+		if debugModules then
+			print("<GAMEX>CORE>DEBUG> Requiring module", tostring(module))
+		end
 
 		xpcall(function()
 			require(module)
-            
-            if debugModules then
-                print("<GAMEX>CORE>DEBUG> Module",tostring(module),"required.")
-            end
 
+			if debugModules then
+				print("<GAMEX>CORE>DEBUG> Module", tostring(module), "required.")
+			end
 		end, function(err)
 			warn("<GAMEX>CORE> Failed to initiate module", tostring(module), "for", err)
 		end)
@@ -136,8 +137,19 @@ end
     Creates a new signal.
     @return Signal: A new signal instance.
 ]=]
-function CoreX.CreateSignal()
+function CoreX.CreateNormalSignal()
 	return Signal.new()
+end
+
+function CoreX.NewController(name: string): { ControllerOperator: XControllerManager, Controller: XController }
+	local newController = ControllerManager.new(name)
+    
+    newController:Register()
+
+	return {
+		ControllerOperator = newController:GetUseableController(),
+		Controller = newController,
+	}
 end
 
 --[=[
@@ -146,17 +158,22 @@ end
     @return XService
 ]=]
 function CoreX.NewService(name: string): { ServiceController: XServiceManager, Service: XService }
-	assert(RunService:IsServer(), "Can not create service under name",name,"due to the context not being on the server.")
-    assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
-    
-    local newService = ServiceManager.new(name)
+	assert(
+		RunService:IsServer(),
+		"Can not create service under name",
+		name,
+		"due to the context not being on the server."
+	)
+	assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
 
-    newService:Register()
+	local newService = ServiceManager.new(name)
+
+	newService:Register()
 
 	return {
-        ServiceController = newService,
-        Service = newService:GetUseableService(),
-    }
+		ServiceController = newService,
+		Service = newService:GetUseableService(),
+	}
 end
 
 --[=[
@@ -165,9 +182,9 @@ end
     @return XService | nil: The registered service if found, otherwise nil.
 ]=]
 function CoreX.GetService(name: string): XService | nil
-	assert(RunService:IsServer(), "Can not get service under name",name,"due to the context not being on the server.")
-    assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
-    
+	assert(RunService:IsServer(), "Can not get service under name", name, "due to the context not being on the server.")
+	assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
+
 	return ServiceManager.GetService(name)
 end
 
