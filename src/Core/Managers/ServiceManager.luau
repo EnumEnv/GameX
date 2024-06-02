@@ -73,11 +73,34 @@ end
 function ServiceManager.Start(self: SelfType)
 	assert(RegisteredServices[self._name], "Service of name", self._name, "isn't registered. Can't be started.")
 
+	local serviceFailed = false
+
 	TaskThreadManager.CreateTask(self._name)
 	TaskThreadManager.BindFunctionToTask(self._name, function()
+		local a, _ = pcall(function()
+			assert(
+				RegisteredServices[self._name].Begin,
+				"Service of name",
+				self._name,
+				"doesn't contain the ':Begin()' function, therefore it will be cleared from the memory and ignored."
+			)
+		end)
+
+		if not a then
+			serviceFailed = true
+
+			RegisteredServices[self._name] = nil
+			TaskThreadManager.StopTask(self._name, true)
+
+			return
+		end
+
 		RegisteredServices[self._name]:Begin()
 	end)
-	TaskThreadManager.StartTask(self._name)
+
+	if not serviceFailed then
+		TaskThreadManager.StartTask(self._name)
+	end
 end
 
 --[=[
