@@ -171,12 +171,18 @@ end
 
 --[=[
 	Creates a new component managed by a module and a tag.
-	@param module --> ModuleScript -- The module for the entity component.
+	@param module --> XComponent -- The component for the entity component.
 	@param tag --> string -- The tag to be assigned for the component.
 	@return void
 --]=]
-function CoreX.NewComponent(module: ModuleScript, tag: string)
+function CoreX.NewComponent(tag: string)
+	local module: XComponent
+
 	return {
+		AssignComponentTable = function(tab: XComponent)
+			module = tab
+		end,
+
 		Finish = function()
 			ComponentManager.NewComponent(module, tag)
 		end,

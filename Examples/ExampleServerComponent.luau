@@ -5,7 +5,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Core = require(ReplicatedStorage.GameX.Core)
 
 -- Component --
-local TestComponent = Core.NewComponent(script, "TestServerComponent")
+local NewComponent = Core.NewComponent("TestServerComponent")
+local TestComponent = {}
 
 -- Types --
 export type SelfType = typeof(TestComponent)
@@ -20,7 +21,8 @@ function TestComponent.Deinit(self: SelfType, object: Instance)
 end
 
 -- Component Final --
-TestComponent.Finish()
+NewComponent.AssignComponentTable(TestComponent)
+NewComponent.Finish()
 
 -- End --
 return TestComponent

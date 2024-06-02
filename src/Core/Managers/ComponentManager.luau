@@ -82,12 +82,12 @@ end
 --- @param module --> ModuleScript -- The module for the entity component.
 --- @param tag --> string -- The tag to be assigned for the component.
 --- @return void
-function EnumECS.NewComponent(module: ModuleScript, tag: string)
+function EnumECS.NewComponent(module: Component, tag: string)
 	assert(not LoadedComponents[tag], "Tag for", tag, "already exists.")
 
 	-- Creating Info Data For Tag/Component --
 	ObjectComponents[tag] = {}
-	LoadedComponents[tag] = require(module)
+	LoadedComponents[tag] = module
 
 	-- Check For Pre-Existing Tags --
 	for _, object in CollectionService:GetTagged(tag) do
