@@ -6,7 +6,7 @@ local Players = game:GetService("Players")
 local Core = require(ReplicatedStorage.GameX.Core)
 
 -- Service --
-local ControllerCore = Core.NewController { Name = "TestController" }
+local ControllerCore = Core.NewController("TestController")
 local TestController = ControllerCore.Controller
 
 -- Variables --
@@ -17,11 +17,11 @@ export type SelfType = typeof(TestController)
 
 -- Controller Functions --
 function TestController.Begin(self: SelfType)
-    print("controller began")
+	print("controller began")
 end
 
 function TestController.LocalCharacterAdded(self: SelfType, character: Model)
-    print("local character has been added. name:",tostring(character))
+	print("local character has been added. name:", tostring(character))
 end
 
 -- Controller Final --

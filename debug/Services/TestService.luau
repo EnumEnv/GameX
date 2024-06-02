@@ -5,7 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Core = require(ReplicatedStorage.GameX.Core)
 
 -- Service --
-local ServiceCore = Core.NewService { Name = "TestService" }
+local ServiceCore = Core.NewService("TestService")
 local TestService = ServiceCore.Service
 
 -- Types --
@@ -13,7 +13,7 @@ export type SelfType = typeof(TestService)
 
 -- Service Functions --
 function TestService.Begin(self: SelfType)
-    print("service began")
+	print("service began")
 end
 
 -- Service Final --
