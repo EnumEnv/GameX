@@ -142,13 +142,21 @@ function CoreX.CreateNormalSignal()
 end
 
 function CoreX.NewController(name: string): { ControllerOperator: XControllerManager, Controller: XController }
+	assert(
+		RunService:IsClient(),
+		"Can not create controller under name",
+		name,
+		"due to the context not being on the client."
+	)
+	assert(script:GetAttribute("ClientStarted"), "GameX.Start() hasn't been ran on the client.")
+
 	local newController = ControllerManager.new(name)
-    
-    newController:Register()
+
+	newController:Register()
 
 	return {
-		ControllerOperator = newController:GetUseableController(),
-		Controller = newController,
+		ControllerOperator = newController,
+		Controller = newController:GetUseableController(),
 	}
 end
 
@@ -186,6 +194,23 @@ function CoreX.GetService(name: string): XService | nil
 	assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
 
 	return ServiceManager.GetService(name)
+end
+
+--[=[
+    Retrieves a registered controller by name.
+    @param name string: The name of the controller.
+    @return XController | nil: The registered controller if found, otherwise nil.
+--]=]
+function CoreX.GetController(name: string): XController | nil
+	assert(
+		RunService:IsClient(),
+		"Can not get controller under name",
+		name,
+		"due to the context not being on the client."
+	)
+	assert(script:GetAttribute("ClientStarted"), "GameX.Start() hasn't been ran on the client.")
+
+	return ControllerManager.GetController(name)
 end
 
 -- End --
