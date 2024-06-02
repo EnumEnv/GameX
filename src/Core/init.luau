@@ -41,6 +41,7 @@ local ControllerManager = require(Managers.ControllerManager)
 
 -- Types --
 export type SignalType = typeof(Signal)
+export type APIType = typeof(CoreX)
 export type XService = ServiceManager.XService
 export type XServiceManager = typeof(ServiceManager)
 export type XController = ControllerManager.XController
