@@ -38,6 +38,7 @@ local Managers = script.Managers
 local Signal = require(script.Signal)
 local ServiceManager = require(Managers.ServiceManager)
 local ControllerManager = require(Managers.ControllerManager)
+local ComponentManager = require(Managers.ComponentManager)
 
 -- Types --
 export type SignalType = typeof(Signal)
@@ -46,6 +47,7 @@ export type XService = ServiceManager.XService
 export type XServiceManager = typeof(ServiceManager)
 export type XController = ControllerManager.XController
 export type XControllerManager = typeof(ControllerManager)
+export type XComponent = ComponentManager.Component
 export type GameXOptions = {
 	DebugModules: boolean?,
 }
@@ -168,6 +170,36 @@ function CoreX.NewController(name: string): { ControllerOperator: XControllerMan
 end
 
 --[=[
+	Creates a new component managed by a module and a tag.
+	@param module --> ModuleScript -- The module for the entity component.
+	@param tag --> string -- The tag to be assigned for the component.
+	@return void
+--]=]
+function CoreX.NewComponent(module: ModuleScript, tag: string)
+	ComponentManager.NewComponent(module, tag)
+end
+
+--[=[
+	Removes the loaded component, as well as the objects loaded with it.
+	@param tag --> string -- The tag assigned to the loaded component to be removed.
+	@return void
+--]=]
+function CoreX.RemoveLoadedComponent(tag: string)
+	ComponentManager.RemoveLoadedComponent(tag)
+end
+
+--[=[
+	Removes/deinits a component loaded onto a object.
+	@param tag --> string -- The component tag to remove from the object.
+	@param object --> Instance -- The object to remove the component from.
+	@param removeTag --> boolean -- Whether or not to remove the tag from the object.
+	@return void
+--]=]
+function CoreX.RemoveObjectComponent(tag: string, object: Instance, removeTag: boolean?)
+	ComponentManager.RemoveObjectComponent(tag, object, removeTag)
+end
+
+--[=[
     Creates and registers a new service.
     @param name string: The name of the service.
     @return XService
@@ -201,6 +233,36 @@ function CoreX.GetService(name: string): XService | nil
 	assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
 
 	return ServiceManager.GetService(name)
+end
+
+--[=[
+	Returns the component of a object on a specific tag.
+	@param tag --> string -- The tag to look for.
+	@param object --> Instance -- The object the tag should be looked for on.
+	@return Component (:Init(), :Deinit(), ...)
+--]=]
+function CoreX.GetObjectComponent(tag: string, object: Instance): XComponent | nil
+	return ComponentManager.GetObjectComponent(tag, object)
+end
+
+--[=[
+	Waits for a specific component tag to be loaded.
+	@yields
+	@param tag --> string -- The tag/component to wait to be loaded.
+	@return Component
+--]=]
+function CoreX.WaitForLoadedComponent(tag: string): XComponent | nil
+	return ComponentManager.WaitForLoadedComponent(tag)
+end
+
+--[=[
+	Waits for a specific object to recieve a component of a specific tag.
+	@param tag --> string -- The tag/component to wait for.
+	@param object --> Instance -- The object to wait for the tag to be assigned to.
+	@return Component (:Init(), :Deinit(), ...)
+--]=]
+function CoreX.WaitForObjectComponent(tag: string, object: Instance): XComponent | nil
+	return ComponentManager.WaitForObjectComponent(tag, object)
 end
 
 --[=[
