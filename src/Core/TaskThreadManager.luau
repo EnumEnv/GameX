@@ -18,9 +18,18 @@ local CollectedBinds = {}
     Creates a new task with the given identifier.
     
     @param identifier string: The unique identifier for the task.
--]=]
+--]=]
 function TaskThreadManager.CreateTask(identifier: string)
 	Threads[identifier] = function() end
+end
+
+--[=[
+    Checks if a task identifier exists inside threads.
+
+    @param identifier string: The unique identifier for the task to look for.
+--]=]
+function TaskThreadManager.TaskExists(identifier: string)
+    return Threads[identifier] ~= nil
 end
 
 --[=[

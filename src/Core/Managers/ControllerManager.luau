@@ -50,8 +50,10 @@ end
 
     @return self SelfType -- The ControllerManager Instance
 --]=]
-function ControllerManager.Start(self: SelfType)
+function ControllerManager.Start(self: SelfType, client: Player)
 	assert(RegisteredControllers[self._name], "Controller of name", self._name, "isn't registered. Can't be started.")
+
+	local controllerFailed = false
 
 	TaskThreadManager.CreateTask(self._name)
 	TaskThreadManager.BindFunctionToTask(self._name, function()
@@ -65,15 +67,39 @@ function ControllerManager.Start(self: SelfType)
 		end)
 
 		if not a then
+			controllerFailed = true
+
 			RegisteredControllers[self._name] = nil
+
 			TaskThreadManager.StopTask(self._name, true)
+
+			if TaskThreadManager.TaskExists(self._name .. "_" .. "LocalCharacterAdded") then
+				TaskThreadManager.StopTask(self._name .. "_" .. "LocalCharacterAdded", true)
+			end
 
 			return
 		end
 
 		RegisteredControllers[self._name]:Begin()
 	end)
-	TaskThreadManager.StartTask(self._name)
+
+	if not controllerFailed then
+		TaskThreadManager.StartTask(self._name)
+	end
+
+	if RegisteredControllers[self._name]["LocalCharacterAdded"] and not controllerFailed then
+		TaskThreadManager.CreateTask(self._name .. "_" .. "LocalCharacterAdded")
+		TaskThreadManager.BindFunctionToTask(self._name .. "_" .. "LocalCharacterAdded", function()
+			if client.Character then
+				RegisteredControllers[self._name]:LocalCharacterAdded(client.Character)
+			end
+
+			client.CharacterAdded:Connect(function(character)
+				RegisteredControllers[self._name]:LocalCharacterAdded(client.Character)
+			end)
+		end)
+		TaskThreadManager.StartTask(self._name .. "_" .. "LocalCharacterAdded")
+	end
 end
 
 --[=[
