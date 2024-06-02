@@ -57,7 +57,9 @@ end
 function TaskThreadManager.StopTask(identifier: string, deleteData: boolean?)
 	assert(Threads[identifier], "Could not find task of identifier:", identifier, "to stop.")
 
-	task.cancel(Threads[identifier])
+	local _,_ = pcall(function()
+        task.cancel(Threads[identifier])
+    end)
 
 	if deleteData then
 		Threads[identifier] = nil
