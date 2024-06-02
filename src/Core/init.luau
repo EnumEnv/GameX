@@ -124,6 +124,7 @@ end
 
 --[=[
     Starts the GameX framework on the current environment and run context.
+    @param gamexOptions GameXOptions: Attributes on the GameX Folder.
 ]=]
 function CoreX.Start(gamexOptions: GameXOptions)
 	if GetRunContext() == "client" then
