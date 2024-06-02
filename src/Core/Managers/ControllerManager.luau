@@ -55,6 +55,22 @@ function ControllerManager.Start(self: SelfType)
 
 	TaskThreadManager.CreateTask(self._name)
 	TaskThreadManager.BindFunctionToTask(self._name, function()
+		local a, _ = pcall(function()
+			assert(
+				RegisteredControllers[self._name].Begin,
+				"Controller of name",
+				self._name,
+				"doesn't contain the ':Begin()' function, therefore it will be cleared from the memory and ignored."
+			)
+		end)
+
+		if not a then
+			RegisteredControllers[self._name] = nil
+			TaskThreadManager.StopTask(self._name, true)
+
+			return
+		end
+
 		RegisteredControllers[self._name]:Begin()
 	end)
 	TaskThreadManager.StartTask(self._name)
