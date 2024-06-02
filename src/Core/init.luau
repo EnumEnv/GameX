@@ -176,7 +176,11 @@ end
 	@return void
 --]=]
 function CoreX.NewComponent(module: ModuleScript, tag: string)
-	ComponentManager.NewComponent(module, tag)
+	return {
+		Finish = function()
+			ComponentManager.NewComponent(module, tag)
+		end,
+	}
 end
 
 --[=[
