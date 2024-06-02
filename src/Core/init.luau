@@ -143,6 +143,11 @@ function CoreX.CreateNormalSignal()
 	return Signal.new()
 end
 
+--[=[
+    Creates and registers a new controller.
+    @param name string: The name of the controller.
+    @return XController
+]=]
 function CoreX.NewController(name: string): { ControllerOperator: XControllerManager, Controller: XController }
 	assert(
 		RunService:IsClient(),
@@ -163,7 +168,7 @@ function CoreX.NewController(name: string): { ControllerOperator: XControllerMan
 end
 
 --[=[
-    Creates and starts a new service.
+    Creates and registers a new service.
     @param name string: The name of the service.
     @return XService
 ]=]
