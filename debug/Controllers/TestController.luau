@@ -20,6 +20,10 @@ function TestController.Begin(self: SelfType)
     print("controller began")
 end
 
+function TestController.LocalCharacterAdded(self: SelfType, character: Model)
+    print("local character has been added. name:",tostring(character))
+end
+
 -- Controller Final --
 ControllerCore.ControllerOperator:Start(LocalPlayer)
 
