@@ -146,7 +146,10 @@ end
     @return XService
 ]=]
 function CoreX.NewService(name: string): { ServiceController: XServiceManager, Service: XService }
-	local newService = ServiceManager.new(name)
+	assert(RunService:IsServer(), "Can not create service under name",name,"due to the context not being on the server.")
+    assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
+    
+    local newService = ServiceManager.new(name)
 
     newService:Register()
 
@@ -162,6 +165,9 @@ end
     @return XService | nil: The registered service if found, otherwise nil.
 ]=]
 function CoreX.GetService(name: string): XService | nil
+	assert(RunService:IsServer(), "Can not get service under name",name,"due to the context not being on the server.")
+    assert(script:GetAttribute("ServerStarted"), "GameX.Start() hasn't been ran on the server.")
+    
 	return ServiceManager.GetService(name)
 end
 
