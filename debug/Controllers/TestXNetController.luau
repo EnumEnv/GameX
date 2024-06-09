@@ -19,8 +19,8 @@ export type SelfType = typeof(TestController)
 -- Controller Functions --
 function TestController.Begin(self: SelfType)
 	print("XNet controller began")
-    local testRemote = XNet.GetRemoteEvent("TestRemote")
-    testRemote:SendData(7,"abc","AUHGGGGGSSISIII",false,true,true,false)
+   -- local testRemote = XNet.GetRemoteEvent("TestRemote")
+  --  testRemote:SendData(7,"abc","AUHGGGGGSSISIII",false,true,true,false)
 end
 
 function TestController.LocalCharacterAdded(self: SelfType, character: Model)
