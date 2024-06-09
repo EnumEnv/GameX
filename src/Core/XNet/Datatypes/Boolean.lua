@@ -24,9 +24,10 @@ local function UnpackFromBit32(bit32Data)
 		local booleanValue = bit32.band(bit32Data, 1) == 1
 
 		table.insert(unpackedData, booleanValue)
-        
+
 		-- Shift the bit32Data to the right to process the next bit
 		bit32Data = bit32.rshift(bit32Data, 1)
+        task.wait()
 	end
 
 	return unpackedData

@@ -1,5 +1,6 @@
 -- Services --
 local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
 
 -- Module --
 local RemoteEvent = {}
@@ -11,6 +12,12 @@ export type SelfType = typeof(RemoteEvent) & {
 	remote: RemoteEvent,
 }
 export type APIType = SelfType
+
+-- Variables --
+local DataTypes = script.Parent.Parent.DataTypes
+local Array = require(DataTypes.Array)
+local String = require(DataTypes.String)
+local Boolean = require(DataTypes.Boolean)
 
 -- Module Functions --
 function RemoteEvent.CreateRemoteEvent(name: string): SelfType
@@ -28,12 +35,43 @@ function RemoteEvent.ListenForData(self: SelfType, callback: () -> ())
 	local isServer = RunService:IsServer()
 	local toBind = if isServer then self.remote.OnServerEvent else self.remote.OnClientEvent
 
-	toBind:Connect(callback)
+	toBind:Connect(function(data1, data2)
+		local decodedData = {}
+		local toDecode
+
+		if isServer then
+			decodedData[1] = data1
+			toDecode = data2
+		else
+			toDecode = data1
+		end
+
+		toDecode = HttpService:JSONDecode(toDecode)
+
+		for index, data in toDecode do
+			local decodedDataInstance
+
+			if typeof(data) == "string" then
+				decodedDataInstance = String.Deoptimize(data)
+			elseif typeof(data) == "number" then
+				decodedDataInstance = data
+			elseif typeof(data) == "boolean" then
+				 
+			end
+
+			decodedData[index+1] = data
+		end
+
+		callback(table.unpack(decodedData))
+	end)
 end
 
 function RemoteEvent.SendData(self: SelfType, ...)
-	-- TODO: Convert and many other stuff
-	self.remote:FireServer(...)
+	local data = table.pack(...)
+	local optimizedData = Array.AutoOptimize(data)
+	optimizedData = HttpService:JSONEncode(optimizedData)
+
+	self.remote:FireServer(optimizedData)
 end
 
 -- End --

@@ -13,5 +13,9 @@ function StringX.AutoOptimize(text: string)
     return encodedForRepetitions
 end
 
+function StringX.Deoptimize(text: string)
+    return RLE.Decode(text)
+end
+
 -- End --
 return StringX
