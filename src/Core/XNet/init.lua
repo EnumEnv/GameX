@@ -21,7 +21,7 @@ function XNet.GetRemoteEvent(name: string): DataManager.APIType
 	if RunService:IsClient() then
 		local recievedRemote
 		
-		ReplicatedStorage.XNET_Replicator.OnClientInvoke = function(remote)
+		ReplicatedStorage.XNET_REPLICATOR.OnClientInvoke = function(remote)
 			recievedRemote = remote
 		end
 		
