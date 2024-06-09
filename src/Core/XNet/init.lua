@@ -37,9 +37,11 @@ function XNet.GetRemoteEvent(name: string): DataManager.APIType
 	return DataManager.CreateRemoteEvent(name)
 end
 
-RemoteFunction.OnServerInvoke(function(player, name)
-	return XNet.GetRemoteEvent(name)
-end)
+if RunService:IsServer() then
+	RemoteFunction.OnServerInvoke = function(player, name)
+		return XNet.GetRemoteEvent(name)
+	end
+end
 
 function XNet.GetDataEnum(name: string, children: { string })
 	return DataManager.CreateDataEnum(name, children)
