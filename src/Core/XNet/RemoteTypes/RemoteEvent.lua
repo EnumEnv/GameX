@@ -41,6 +41,16 @@ function RemoteEvent.CreateRemoteEvent(name: string): SelfType
 	return self :: any
 end
 
+function RemoteEvent.CreateRemoteEventFromClient(remoteInstance: RemoteEvent): SelfType
+	local self = {}
+
+	self.name = remoteInstance.Name
+	self.remote = remoteInstance
+
+	setmetatable(self, RemoteEvent)
+	return self :: any
+end
+
 function RemoteEvent.ListenForData(self: SelfType, callback: () -> ())
 	local isServer = RunService:IsServer()
 	local toBind = if isServer then self.remote.OnServerEvent else self.remote.OnClientEvent
@@ -73,7 +83,7 @@ function RemoteEvent.ListenForData(self: SelfType, callback: () -> ())
 				decodedDataInstance = data
 			end
 
-			decodedData[index+1] = decodedDataInstance
+			decodedData[index + 1] = decodedDataInstance
 		end
 
 		callback(table.unpack(decodedData))
@@ -85,7 +95,11 @@ function RemoteEvent.SendData(self: SelfType, ...)
 	local optimizedData = Array.AutoOptimize(data)
 	optimizedData = HttpService:JSONEncode(optimizedData)
 
-	self.remote:FireServer(optimizedData)
+	if RunService:IsClient() then
+		self.remote:FireServer(optimizedData)
+	else
+		self.remote:FireClient(optimizedData)
+	end
 end
 
 -- End --
