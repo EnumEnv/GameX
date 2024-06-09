@@ -21,7 +21,7 @@ local Encoding = script.Parent.Parent.Encoding
 local Array = require(DataTypes.Array)
 local String = require(DataTypes.String)
 local B64 = require(Encoding.B64)
---local Boolean = require(DataTypes.Boolean)
+local Boolean = require(DataTypes.Boolean)
 
 local XNetInstances = ReplicatedStorage:FindFirstChild("XNetInstances") or Instance.new("Folder")
 XNetInstances.Name = "XNetInstances"
@@ -71,12 +71,9 @@ function RemoteEvent.ListenForData(self: SelfType, callback: () -> ())
 		for index, data in toDecode do
 			local decodedDataInstance
 
-			print(data)
-
 			if typeof(data) == "string" then
 				if string.sub(data, 1, 1) == ">" then
-					print("starts with >")
-					decodedDataInstance = string.sub(data, 2, #data)
+					decodedDataInstance = Boolean.ConvertFromBit32ToBool(string.sub(data, 2, #data))
 				else
 					decodedDataInstance = String.Deoptimize(data)
 				end

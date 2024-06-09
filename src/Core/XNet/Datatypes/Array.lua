@@ -59,7 +59,7 @@ function Array.AutoOptimize(array: { [any]: any })
 			convertedArray[largestIndex] = optimizedType
 		end
 	end
-	print(convertedArray)
+
 	-- Return converted array --
 	return convertedArray
 end
