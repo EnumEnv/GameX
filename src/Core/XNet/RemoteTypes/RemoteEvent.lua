@@ -71,8 +71,11 @@ function RemoteEvent.ListenForData(self: SelfType, callback: () -> ())
 		for index, data in toDecode do
 			local decodedDataInstance
 
+			print(data)
+
 			if typeof(data) == "string" then
 				if string.sub(data, 1, 1) == ">" then
+					print("starts with >")
 					decodedDataInstance = string.sub(data, 2, #data)
 				else
 					decodedDataInstance = String.Deoptimize(data)

@@ -16,8 +16,8 @@ export type SelfType = typeof(TestService)
 function TestService.Begin(self: SelfType)
 	print("XNet service began")
     local testRemote = XNet.GetRemoteEvent("TestRemote")
-    testRemote:ListenForData(function(a,b,c,d,e,f,g)
-        print(a,b,c,d,e,f,g)
+    testRemote:ListenForData(function(a,b,c,d,e,f,g,h)
+        print(a,b,c,d,e,f,g,h)
     end)
 end
 

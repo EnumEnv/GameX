@@ -6,14 +6,18 @@ local function PackTo32BitOne(boolean, lshift, disp)
 	return lshift and bit32.lshift(boolean and 1 or 0, disp) or (boolean and 1 or 0)
 end
 
-local function PackTo32BitMultiple(...)
-	local packedData = 0
+local function PackTo32BitMultiple(bools)
+    if type(bools) ~= "table" then
+        error("Input must be a table of boolean values")
+    end
 
-	for i, dataInstance in ipairs({ ... }) do
-		packedData = bit32.bor(packedData, bit32.lshift(dataInstance and 1 or 0, i - 1))
-	end
+    local packedData = 0
 
-	return packedData
+    for i, dataInstance in bools do
+        packedData = bit32.bor(packedData, bit32.lshift(dataInstance and 1 or 0, (i - 1) * 1))
+    end
+
+    return packedData
 end
 
 local function UnpackFromBit32(bit32Data)
@@ -38,8 +42,8 @@ function Boolean.AutoOptimizeOne(boolean, lshift, disp)
 	return PackTo32BitOne(boolean, lshift, disp)
 end
 
-function Boolean.AutoOptimizeMultiple(...)
-	return PackTo32BitMultiple(...)
+function Boolean.AutoOptimizeMultiple(bools)
+	return PackTo32BitMultiple(bools)
 end
 
 function Boolean.ConvertFromBit32ToBool(bit32Data)

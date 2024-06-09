@@ -32,7 +32,7 @@ function Array.AutoOptimize(array: { [any]: any })
 	end
 
 	-- Optimize data types --
-	local optimizedBooleans = Boolean.AutoOptimizeMultiple(table.unpack(booleans))
+	local optimizedBooleans = Boolean.AutoOptimizeMultiple(booleans)
 	local optimizedStrings = {}
 
 	for index, text in strings do
@@ -47,11 +47,19 @@ function Array.AutoOptimize(array: { [any]: any })
 			for dataIndex, dataValue in optimizedType do
 				convertedArray[dataIndex] = dataValue
 			end
-		else
-			convertedArray[index] = optimizedType
+
+			continue
+		elseif typeof(optimizedType) == "string" and string.sub(optimizedType, 1, 1) == ">" then
+			local largestIndex
+
+			for lIndex, _ in booleans do
+				largestIndex = lIndex
+			end
+
+			convertedArray[largestIndex] = optimizedType
 		end
 	end
-
+	print(convertedArray)
 	-- Return converted array --
 	return convertedArray
 end
