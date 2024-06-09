@@ -52,14 +52,18 @@ function RemoteEvent.ListenForData(self: SelfType, callback: () -> ())
 			local decodedDataInstance
 
 			if typeof(data) == "string" then
-				decodedDataInstance = String.Deoptimize(data)
+				if string.sub(data, 1, 1) == ">" then
+					decodedDataInstance = string.sub(data, 2, #data)
+				else
+					decodedDataInstance = String.Deoptimize(data)
+				end
 			elseif typeof(data) == "number" then
 				decodedDataInstance = data
-			elseif typeof(data) == "boolean" then
-				 
+			else
+				decodedDataInstance = data
 			end
 
-			decodedData[index+1] = data
+			decodedData[index+1] = decodedDataInstance
 		end
 
 		callback(table.unpack(decodedData))

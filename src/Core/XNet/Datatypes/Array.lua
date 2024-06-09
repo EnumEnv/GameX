@@ -39,12 +39,16 @@ function Array.AutoOptimize(array: { [any]: any })
 		optimizedStrings[index] = String.AutoOptimize(text)
 	end
 
-	local allOptimizedTypes = { optimizedBooleans, optimizedStrings, numbers }
+	local allOptimizedTypes = { ">" .. optimizedBooleans, optimizedStrings, numbers }
 
 	-- Build converted array --
-	for _, optimizedType in allOptimizedTypes do
-		for dataIndex, dataValue in optimizedType do
-			convertedArray[dataIndex] = dataValue
+	for index, optimizedType in allOptimizedTypes do
+		if typeof(optimizedType) == "table" then
+			for dataIndex, dataValue in optimizedType do
+				convertedArray[dataIndex] = dataValue
+			end
+		else
+			convertedArray[index] = optimizedType
 		end
 	end
 
