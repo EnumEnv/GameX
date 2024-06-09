@@ -1,6 +1,7 @@
 -- Services --
 local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Module --
 local RemoteEvent = {}
@@ -15,14 +16,23 @@ export type APIType = SelfType
 
 -- Variables --
 local DataTypes = script.Parent.Parent.DataTypes
+local Encoding = script.Parent.Parent.Encoding
+
 local Array = require(DataTypes.Array)
 local String = require(DataTypes.String)
+local B64 = require(Encoding.B64)
 --local Boolean = require(DataTypes.Boolean)
+
+local XNetInstances = ReplicatedStorage:FindFirstChild("XNetInstances") or Instance.new("Folder")
+XNetInstances.Name = "XNetInstances"
+XNetInstances.Parent = ReplicatedStorage
 
 -- Module Functions --
 function RemoteEvent.CreateRemoteEvent(name: string): SelfType
 	local self = {}
 	local newRemote = Instance.new("RemoteEvent")
+	newRemote.Parent = XNetInstances
+	newRemote.Name = B64.ToB64(name)
 
 	self.name = name
 	self.remote = newRemote
