@@ -17,7 +17,7 @@ export type APIType = SelfType
 local DataTypes = script.Parent.Parent.DataTypes
 local Array = require(DataTypes.Array)
 local String = require(DataTypes.String)
-local Boolean = require(DataTypes.Boolean)
+--local Boolean = require(DataTypes.Boolean)
 
 -- Module Functions --
 function RemoteEvent.CreateRemoteEvent(name: string): SelfType
