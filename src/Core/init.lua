@@ -1,26 +1,3 @@
---[=[
-    -- OUTDATED DOCUMENTATION --
-
-    The `CoreX` module serves as the main class for the GameX framework, managing the initialization and 
-    execution of services and components for both client and server environments.
-
-    **Functions:**
-    - `CoreX.Start()`: Starts the GameX framework on the current environment and run context, initializing client or server components accordingly.
-    - `CoreX.CreateSignal()`: Creates and returns a new signal instance using the `Signal` module.
-    - `CoreX.NewService(name: string, moduleScript: ModuleScript): XService`: Creates, registers, and starts a new service with the specified name and module script.
-    - `CoreX.GetService(name: string): XService | nil`: Retrieves a registered service by its name, returning the service if found, or `nil` if not.
-
-    **Local Functions:**
-    - `GetRunContext()`: Determines the run context (client or server) based on the current environment.
-    - `InitModulesInDirectory(directory: Folder)`: Recursively initializes all modules within the specified directory.
-    - `RunClient()`: Initializes and runs the client-side components of the GameX framework.
-    - `RunServer()`: Initializes and runs the server-side components of the GameX framework.
-
-    **Types:**
-    - `SignalType`: Type representing a signal instance created by the `Signal` module.
-    - `XService`: Type representing a service managed by the `ServiceManager` module, with methods `Begin`, `PlayerAdded`, and `PlayerRemoving`.
-]=]
-
 -- Services --
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")

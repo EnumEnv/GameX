@@ -1,21 +1,3 @@
---[=[
-	-- OUTDATED DOCUMENTATION --
-
-    The `ServiceManager` module is responsible for managing and orchestrating services within an application.
-    It allows for the registration, starting, and retrieval of services. Services are tied to tasks managed
-    by the `TaskThreadManager` module.
-
-    Functions:
-        - ServiceManager.new(name: string, module: ModuleScript): Creates a new service manager instance.
-        - ServiceManager.Register(self: SelfType): Registers the service with the given name and module.
-        - ServiceManager.Start(self: SelfType): Starts the registered service.
-        - ServiceManager.GetService(name: string): Retrieves the registered service by name.
-
-    Types:
-        - SelfType: The type representing the service manager instance.
-        - XService: The type representing a service with specific methods (Begin, PlayerAdded, PlayerRemoving).
-]=]
-
 -- Manager Info --
 local ServiceManager = {}
 ServiceManager.__index = ServiceManager
