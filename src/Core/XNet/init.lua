@@ -17,6 +17,7 @@ local RemoteEvent = require(RemoteTypes.RemoteEvent)
 function XNet.GetRemoteEvent(name: string): DataManager.APIType
 	if RunService:IsClient() then
 		local event = ReplicatedStorage:WaitForChild("XNetInstances"):FindFirstChild(B64.ToB64(name))
+		
 		return RemoteEvent.CreateRemoteEventFromClient(event)
 	end
 
