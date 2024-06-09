@@ -1,3 +1,6 @@
+-- Services --
+local RunService = game:GetService("RunService")
+
 -- Module --
 local RemoteEvent = {}
 RemoteEvent.__index = RemoteEvent
@@ -19,6 +22,13 @@ function RemoteEvent.CreateRemoteEvent(name: string): SelfType
 
 	setmetatable(self, RemoteEvent)
 	return self :: any
+end
+
+function RemoteEvent.ListenForData(self: SelfType, callback: () -> ())
+	local isServer = RunService:IsServer()
+	local toBind = if isServer then self.remote.OnServerEvent else self.remote.OnClientEvent
+
+	toBind:Connect(callback)
 end
 
 function RemoteEvent.SendData(self: SelfType, ...)

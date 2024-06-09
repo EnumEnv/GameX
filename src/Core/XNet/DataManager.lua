@@ -17,7 +17,11 @@ local RemoteEvent = require(RemoteTypes.RemoteEvent)
 
 -- Module Functions --
 function DataManager.CreateRemoteEvent(name: string): RemoteEvent.SelfType
+	assert(not Remotes.RemoteEvents[name], "RemoteEvent of name", name, "already exists.")
+
 	local newRemote = RemoteEvent.CreateRemoteEvent(name)
+	Remotes.RemoteEvents[name] = newRemote
+	return newRemote
 end
 
 -- End --

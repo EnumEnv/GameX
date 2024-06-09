@@ -10,16 +10,6 @@
       }
     },
 
-    "Core": {
-      "$path": "src/Core"
-    },
-
-    "SelfStarterServer": {
-      "$path": "src/SelfStarterServer"
-    },
-
-    "SelfStarterClient": {
-      "$path": "src/SelfStarterClient"
-    }
+    "$path": "src"
   }
 }
