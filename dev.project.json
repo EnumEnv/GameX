@@ -1,0 +1,14 @@
+{
+    "name": "GameXDEV",
+    "emitLegacyScripts": false,
+    "tree": {
+      "$className": "DataModel",
+      
+      "ReplicatedStorage": {
+        "GameX": {
+            "$path": "default.project.json"
+        }
+      }
+    }
+  }
+  

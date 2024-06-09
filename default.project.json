@@ -5,7 +5,8 @@
     "$className": "Folder",
     "$properties": {
       "Attributes": {
-        "DebugModules": {"Bool": true}
+        "DebugModules": {"Bool": true},
+        "FirstServerThenClient": {"Bool": true}
       }
     },
 
