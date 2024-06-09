@@ -6,14 +6,15 @@ local Remotes = {
 }
 DataManager.__index = DataManager
 
--- Types --
-export type SelfType = typeof(DataManager)
-export type APIType = SelfType
-
 -- Variables --
 local RemoteTypes = script.Parent.RemoteTypes
 
 local RemoteEvent = require(RemoteTypes.RemoteEvent)
+
+-- Types --
+export type SelfType = typeof(DataManager)
+export type APIType = SelfType
+export type RemoteEventType = RemoteEvent.APIType
 
 -- Module Functions --
 function DataManager.CreateRemoteEvent(name: string): RemoteEvent.SelfType
