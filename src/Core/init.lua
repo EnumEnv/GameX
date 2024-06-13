@@ -77,7 +77,7 @@ local function RunClient(gamexOptions: GameXOptions)
 	assert(not (script:GetAttribute("ClientStarted") == true), "<GAMEX>CORE> Client already started.")
 
 	local Controllers = ReplicatedStorage.Controllers
-	local ClientComponents = ReplicatedStorage.Components.Client
+	local ClientComponents = ReplicatedStorage.Components
 
 	script:SetAttribute("ClientStarted", true)
 
@@ -93,7 +93,7 @@ local function RunServer(gamexOptions: GameXOptions)
 
 	local Services = ServerScriptService.Services
 	--local BackendServices = ServerScriptService.BackendServices
-	local ServerComponents = ReplicatedStorage.Components.Server
+	local ServerComponents = ServerScriptService.Components
 
 	script:SetAttribute("ServerStarted", true)
 
