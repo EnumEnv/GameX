@@ -45,12 +45,13 @@ end
 ]=]
 local function InitModulesInDirectory(directory: Folder, debugModules: boolean?)
 	for _, module in directory:GetChildren() do
+		print(module)
 		if module:IsA("Folder") then
 			if debugModules then
 				print("<GAMEX>CORE>DEBUG> Looping through directory", tostring(module))
 			end
 
-			InitModulesInDirectory(directory, debugModules)
+			InitModulesInDirectory(module, debugModules)
 			continue
 		end
 
