@@ -145,6 +145,10 @@ function EnumECS.RemoveObjectComponent(tag: string, object: Instance, removeTag:
 	end
 end
 
+function EnumECS.AddComponentToObject(tag: string, object: Instance) 
+	object:AddTag(tag)
+end
+
 --- Waits for a specific object to recieve a component of a specific tag.
 --- @param tag --> string -- The tag/component to wait for.
 --- @param object --> Instance -- The object to wait for the tag to be assigned to.

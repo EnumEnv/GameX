@@ -235,6 +235,10 @@ function CoreX.GetObjectComponent(tag: string, object: Instance): XComponent | n
 	return ComponentManager.GetObjectComponent(tag, object)
 end
 
+function CoreX.AssignComponentToObject(tag: string, object: Instance)
+	ComponentManager.AddComponentToObject(tag, object)
+end
+
 --[=[
 	Waits for a specific component tag to be loaded.
 	@yields
